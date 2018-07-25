@@ -8,11 +8,11 @@
 
 namespace App\Controller;
 
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Nelmio\ApiDocBundle\NelmioApiDocBundle;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as Annotation;
 
 /**
@@ -21,23 +21,25 @@ use Swagger\Annotations as Annotation;
 class DiscountController extends FOSRestController
 {
     /**
-     * List the rewards of the specified user.
+     * Get discount for customer order
      *
-     * This call takes into account all confirmed awards, but not pending or refused awards.
+     * This call service which will calculate discount by order and customer order history
      *
-     * @Route("/api/get-discount-for-order", methods={"GET"})
+     * @Route("/api/get-discount-for-order", methods={"POST"})
+     *
+     * @Rest\RequestParam(name="discount", nullable=false)
      *
      * @Annotation\Response(
      *     response=200,
-     *     description="Returns the rewards of an user",
+     *     description="Returns the discount for order",
      * )
      *
      * @Annotation\Tag(name="discounts")
      *
      * @return Response
      */
-    public function getDiscountForOrderAction(): Response
+    public function getDiscountForOrderAction(Request $request): Response
     {
-        return new Response('yeeay');
+        return new Response($request);
     }
 }
