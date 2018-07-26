@@ -8,12 +8,13 @@
 
 namespace App\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Swagger\Annotations as Annotation;
+use Swagger\Annotations as SWG;
+use Swagger\Annotations\Property;
+use Swagger\Annotations\Schema;
 
 /**
  * Class DiscountController
@@ -21,25 +22,44 @@ use Swagger\Annotations as Annotation;
 class DiscountController extends FOSRestController
 {
     /**
-     * Get discount for customer order
+     * Calculate discount for customer order
      *
      * This call service which will calculate discount by order and customer order history
      *
-     * @Route("/api/get-discount-for-order", methods={"POST"})
+     * @Route("/api/calculate-discount-for-order", methods={"POST"})
      *
-     * @Rest\RequestParam(name="discount", nullable=false)
+     * @SWG\Post(
+     *     consumes={"application/json"},
+     *     produces={"application/json"},
+     *     tags={"discounts"},
      *
-     * @Annotation\Response(
+     *     @SWG\Parameter(
+     *     name="body",
+     *     in="body",
+     *     required=true,
+     *     description="json order object",
+     *     @SWG\Schema(
+     *      type="object",
+     *          @SWG\Property(
+     *          type="string",
+     *          property="id",
+     *          example="1"
+     *          )
+     *    )
+     * ),
+     *
+     *     @SWG\Response(
      *     response=200,
-     *     description="Returns the discount for order",
+     *     description="calculated discount for order"
+     * )
      * )
      *
-     * @Annotation\Tag(name="discounts")
+     * @param Request $request
      *
      * @return Response
      */
-    public function getDiscountForOrderAction(Request $request): Response
+    public function calculateDiscountForOrderAction(Request $request): Response
     {
-        return new Response($request);
+        return new Response(json_encode("VANIA LOH"), 200);
     }
 }
