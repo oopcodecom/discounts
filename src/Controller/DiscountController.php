@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: bogdan
@@ -29,29 +30,45 @@ class DiscountController extends FOSRestController
      * @Route("/api/calculate-discount-for-order", methods={"POST"})
      *
      * @SWG\Post(
-     *     consumes={"application/json"},
-     *     produces={"application/json"},
-     *     tags={"discounts"},
-     *
-     *     @SWG\Parameter(
-     *     name="body",
-     *     in="body",
-     *     required=true,
-     *     description="json order object",
-     *     @SWG\Schema(
-     *      type="object",
-     *          @SWG\Property(
-     *          type="string",
-     *          property="id",
-     *          example="1"
-     *          )
-     *    )
-     * ),
-     *
+     *  consumes={"application/json"},
+     *  produces={"application/json"},
+     *  tags={"discounts"},
+     *      @SWG\Parameter(
+     *          name="body",
+     *          in="body",
+     *          required=true,
+     *          description="json order object",
+     *              @SWG\Schema(
+     *               type="object",
+     *               required={"id", "customer-id", "items"},
+     *                  @SWG\Property(
+     *                    type="string",
+     *                    property="id",
+     *                    example="1"
+     *                  ),
+     *                  @SWG\Property(
+     *                    type="string",
+     *                    property="customer-id",
+     *                    example="1"
+     *                  ),
+     *                  @SWG\Property(
+     *                    property="items",
+     *                    type="array",
+     *                      @SWG\Items(
+     *                        type="object",
+     *                        required={"product-id", "quantity", "unit-price", "total"},
+     *                          @SWG\Property(property="product-id", type="string", example="B102"),
+     *                          @SWG\Property(property="quantity", type="string", example="10"),
+     *                          @SWG\Property(property="unit-price", type="string", example="4.99"),
+     *                          @SWG\Property(property="total", type="string", example="49.90"),
+     *                      ),
+     *                   ),
+     *              )
+     *      ),
      *     @SWG\Response(
      *     response=200,
      *     description="calculated discount for order"
-     * )
+     *     )
      * )
      *
      * @param Request $request
