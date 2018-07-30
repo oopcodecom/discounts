@@ -30,7 +30,7 @@ class DiscountFixtures extends Fixture
             $manager->persist($ruleObject);
             $ruleObjects[] = $ruleObject;
         }
-        $manager->flush();
+
         $index = 0;
 
         foreach ($this->getDiscounts() as $discount) {
