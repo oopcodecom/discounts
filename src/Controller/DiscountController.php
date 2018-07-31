@@ -77,6 +77,9 @@ class DiscountController extends FOSRestController
      */
     public function calculateDiscountForOrderAction(Request $request): Response
     {
-        return new Response(json_encode("VANIA LOH"), 200);
+        $discountManager = $this->container->get('App\Service\DiscountManager\DiscountManager');
+        $discountManager->getDiscontForOrder($request->getContent());
+
+        return new Response(json_encode($discountManager->test()), 200);
     }
 }
