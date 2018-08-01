@@ -12,42 +12,22 @@ namespace App\Service\DiscountManager\Rules;
 /**
  * Class DiscountOnCustomerSpentAmountRule
  */
-class DiscountOnCustomerSpentAmountRule implements DiscountRuleInterface
+class DiscountOnCustomerSpentAmountRule extends AbstractDiscountRule implements DiscountRuleInterface
 {
     /**
-     * @var mixed|mixed
-     */
-    private $ruleValue;
-    /**
-     * @var int
-     */
-    private $discountAmount;
-    /**
-     * @var int|null
-     */
-    private $productCategoryId;
-
-    /**
-     * DiscountRuleInterface constructor.
-     *
-     * @param mixed    $ruleValue
-     * @param int      $discountAmount
-     * @param int|null $productCategoryId
-     */
-    public function __construct($ruleValue, int $discountAmount, ?int $productCategoryId = null)
-    {
-        $this->ruleValue = $ruleValue;
-        $this->discountAmount = $discountAmount;
-        $this->productCategoryId = $productCategoryId;
-    }
-
-    /**
-     * @param object $order
+     * @param array $order
      *
      * @return float
      */
-    public function calculateDiscount(object $order): float
+    public function calculateDiscount(array $order): float
     {
-        return 1.0;
+        $discount = 0.00;
+        $customerSpentAmount = $this->apiClient->getCustomerSpentAmountByCustomerId($order['customer-id']);
+
+        if ($customerSpentAmount > $this->ruleValue) {
+            $discount = (float) $order['total'] * $this->discountAmount / 100;
+        }
+
+        return $discount;
     }
 }

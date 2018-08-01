@@ -4,28 +4,35 @@ declare(strict_types=1);
  * Created by PhpStorm.
  * User: bogdan
  * Date: 8/1/18
- * Time: 8:11 AM
+ * Time: 8:58 PM
  */
 
 namespace App\Service\DiscountManager\Rules;
 
+use App\Service\RestClientStub\RestClientStub;
+
 /**
- * Class DiscountAfterProductQuantityRule
+ * Class AbstractDiscountRule
  */
-class DiscountAfterProductQuantityRule implements DiscountRuleInterface
+abstract class AbstractDiscountRule
 {
     /**
      * @var mixed|mixed
      */
-    private $ruleValue;
+    protected $ruleValue;
+
     /**
      * @var int
      */
-    private $discountAmount;
+    protected $discountAmount;
+
     /**
      * @var int|null
      */
-    private $productCategoryId;
+    protected $productCategoryId;
+
+    /** @var RestClientStub */
+    protected $apiClient;
 
     /**
      * DiscountRuleInterface constructor.
@@ -34,20 +41,11 @@ class DiscountAfterProductQuantityRule implements DiscountRuleInterface
      * @param int      $discountAmount
      * @param int|null $productCategoryId
      */
-    public function __construct($ruleValue, int $discountAmount, ?int $productCategoryId = null)
+    public function __construct($ruleValue, int $discountAmount, int $productCategoryId = null)
     {
         $this->ruleValue = $ruleValue;
         $this->discountAmount = $discountAmount;
         $this->productCategoryId = $productCategoryId;
-    }
-
-    /**
-     * @param object $order
-     *
-     * @return float
-     */
-    public function calculateDiscount(object $order): float
-    {
-        return 1.0;
+        $this->apiClient = new RestClientStub();
     }
 }

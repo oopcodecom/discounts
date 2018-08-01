@@ -39,9 +39,15 @@ class DiscountManager
      */
     public function getDiscountForOrder(string $order)
     {
-        $orderObject = json_decode($order);
+        /**
+         * Note: This is only a stub, in real case $order should be deserialized
+         *       in Order Object with fields, getters and setters.
+         *
+         * @var array $orderObject
+         */
+        $orderObject = json_decode($order, true);
 
-        $result = 0.0;
+        $calculatedDiscount = 0.0;
 
         /** @var DiscountRepository $discountRepository */
         $discountRepository = $this->objectManager->getRepository(Discount::class);
@@ -55,10 +61,10 @@ class DiscountManager
                 $discount['productCategory']
             );
 
-            $result += $ruleObject->calculateDiscount($orderObject);
+            $calculatedDiscount += $ruleObject->calculateDiscount($orderObject);
 
         }
 
-        return $result;
+        return $calculatedDiscount;
     }
 }

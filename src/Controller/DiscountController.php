@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Service\DiscountManager\DiscountManager;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,7 +41,7 @@ class DiscountController extends FOSRestController
      *          description="json order object",
      *              @SWG\Schema(
      *               type="object",
-     *               required={"id", "customer-id", "items"},
+     *               required={"id", "customer-id", "items", "total"},
      *                  @SWG\Property(
      *                    type="string",
      *                    property="id",
@@ -63,6 +64,11 @@ class DiscountController extends FOSRestController
      *                          @SWG\Property(property="total", type="string", example="49.90"),
      *                      ),
      *                   ),
+     *                  @SWG\Property(
+     *                    type="string",
+     *                    property="total",
+     *                    example="49.90"
+     *                  ),
      *              )
      *      ),
      *     @SWG\Response(
@@ -77,7 +83,7 @@ class DiscountController extends FOSRestController
      */
     public function calculateDiscountForOrderAction(Request $request): Response
     {
-        $discountManager = $this->container->get('App\Service\DiscountManager\DiscountManager');
+        $discountManager = $this->container->get(DiscountManager::class);
         $calculatedDiscount = $discountManager->getDiscountForOrder($request->getContent());
 
         return new Response(json_encode($calculatedDiscount), 200);

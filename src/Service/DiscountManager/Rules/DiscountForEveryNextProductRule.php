@@ -12,42 +12,27 @@ namespace App\Service\DiscountManager\Rules;
 /**
  * Class DiscountForEveryNextProductRule
  */
-class DiscountForEveryNextProductRule implements DiscountRuleInterface
+class DiscountForEveryNextProductRule extends AbstractDiscountRule implements DiscountRuleInterface
 {
     /**
-     * @var mixed
-     */
-    private $ruleValue;
-    /**
-     * @var int
-     */
-    private $discountAmount;
-    /**
-     * @var int|null
-     */
-    private $productCategoryId;
-
-    /**
-     * DiscountRuleInterface constructor.
-     *
-     * @param mixed    $ruleValue
-     * @param int      $discountAmount
-     * @param int|null $productCategoryId
-     */
-    public function __construct($ruleValue, int $discountAmount, ?int $productCategoryId = null)
-    {
-        $this->ruleValue = $ruleValue;
-        $this->discountAmount = $discountAmount;
-        $this->productCategoryId = $productCategoryId;
-    }
-
-    /**
-     * @param object $order
+     * @param array $order
      *
      * @return float
      */
-    public function calculateDiscount(object $order): float
+    public function calculateDiscount(array $order): float
     {
-        return 1.0;
+        $discount = 0.00;
+
+        foreach ($order['items'] as $item) {
+            $productId = $this->apiClient->getProductCategoryId($item['product-id']);
+            if ((string) $this->productCategoryId === $productId) {
+                $countItemsForDiscount = (int) ($item['quantity'] / $this->ruleValue);
+                if ($countItemsForDiscount) {
+                    $discount = (((float) $item['unit-price'] * $countItemsForDiscount) * $this->discountAmount) / 100;
+                }
+            }
+        }
+
+        return $discount;
     }
 }

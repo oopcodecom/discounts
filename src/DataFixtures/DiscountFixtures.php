@@ -10,7 +10,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Discount;
 use App\Entity\Rule;
-use App\Service\DiscountManager\Rules\DiscountAfterProductQuantityRule;
+use App\Service\DiscountManager\Rules\DiscountAfterQuantityOnCheapestProductRule;
 use App\Service\DiscountManager\Rules\DiscountForEveryNextProductRule;
 use App\Service\DiscountManager\Rules\DiscountOnCustomerSpentAmountRule;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -58,9 +58,9 @@ class DiscountFixtures extends Fixture
     private function getRules(): array
     {
         return [
-            DiscountAfterProductQuantityRule::class,
-            DiscountForEveryNextProductRule::class,
             DiscountOnCustomerSpentAmountRule::class,
+            DiscountForEveryNextProductRule::class,
+            DiscountAfterQuantityOnCheapestProductRule::class,
         ];
     }
 

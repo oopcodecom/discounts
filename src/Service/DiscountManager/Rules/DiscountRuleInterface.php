@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: bogdan
@@ -13,20 +14,12 @@ namespace App\Service\DiscountManager\Rules;
  */
 interface DiscountRuleInterface
 {
-
     /**
-     * DiscountRuleInterface constructor.
+     * Note: In real world, $order should be an object of Order object
      *
-     * @param mixed    $ruleValue
-     * @param int      $discountAmount
-     * @param int|null $productCategoryId
-     */
-    public function __construct($ruleValue, int $discountAmount, int $productCategoryId = null);
-
-    /**
-     * @param object $order
+     * @param array $order
      *
      * @return float
      */
-    public function calculateDiscount(object $order): float;
+    public function calculateDiscount(array $order): float;
 }
