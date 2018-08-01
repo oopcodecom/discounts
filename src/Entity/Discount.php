@@ -13,7 +13,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\DiscountRepository")
  */
 class Discount
 {
@@ -68,6 +68,13 @@ class Discount
      * @ORM\Column(type="integer")
      */
     private $discountOrder;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
 
     /**
      * @return mixed
@@ -205,6 +212,26 @@ class Discount
     public function setRuleValue(int $ruleValue): self
     {
         $this->ruleValue = $ruleValue;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param bool $isActive
+     *
+     * @return Discount
+     */
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

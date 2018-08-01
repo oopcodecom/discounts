@@ -10,6 +10,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Discount;
 use App\Entity\Rule;
+use App\Service\DiscountManager\Rules\DiscountAfterProductQuantityRule;
+use App\Service\DiscountManager\Rules\DiscountForEveryNextProductRule;
+use App\Service\DiscountManager\Rules\DiscountOnCustomerSpentAmountRule;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -41,6 +44,7 @@ class DiscountFixtures extends Fixture
             $discountObject->setDiscountOrder($discount['discountOrder']);
             $discountObject->setRule($ruleObjects[$index]);
             $discountObject->setRuleValue($discount['ruleValue']);
+            $discountObject->setIsActive($discount['isActive']);
             $manager->persist($discountObject);
             $index++;
         }
@@ -53,7 +57,11 @@ class DiscountFixtures extends Fixture
      */
     private function getRules(): array
     {
-        return ['DiscountForEveryNextProductRule', 'DiscountAfterProductQuantityRule', 'DiscountOnCustomerSpentAmountRule'];
+        return [
+            DiscountAfterProductQuantityRule::class,
+            DiscountForEveryNextProductRule::class,
+            DiscountOnCustomerSpentAmountRule::class,
+        ];
     }
 
     /**
@@ -68,6 +76,7 @@ class DiscountFixtures extends Fixture
                 'productCategory' => null,
                 'ruleValue' => 1000,
                 'discountOrder' => 1,
+                'isActive' => true,
             ],
             [
                 'name' => 'Discount on every sixth product in category "Switches"',
@@ -75,6 +84,7 @@ class DiscountFixtures extends Fixture
                 'productCategory' => 2,
                 'ruleValue' => 6,
                 'discountOrder' => 2,
+                'isActive' => true,
             ],
             [
                 'name' => 'Discount on cheapest product if two or more products in category "Tools"',
@@ -82,6 +92,7 @@ class DiscountFixtures extends Fixture
                 'productCategory' => 1,
                 'ruleValue' => 2,
                 'discountOrder' => 3,
+                'isActive' => true,
             ],
         ];
     }
