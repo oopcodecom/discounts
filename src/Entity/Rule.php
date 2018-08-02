@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,7 +39,15 @@ class Rule
      *
      * @ORM\OneToMany(targetEntity="Discount", mappedBy="rule")
      */
-    private $discount;
+    private $discounts;
+
+    /**
+     * Rule constructor
+     */
+    public function __construct()
+    {
+        $this->discounts = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -81,21 +90,36 @@ class Rule
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getDiscount(): ArrayCollection
+    public function getDiscounts(): Collection
     {
-        return $this->discount;
+        return $this->discounts;
     }
 
     /**
-     * @param ArrayCollection $discount
+     * @param Discount $discount
      *
      * @return Rule
      */
-    public function setDiscount(ArrayCollection $discount): self
+    public function addDiscount(Discount $discount): self
     {
-        $this->discount = $discount;
+        $discount->setRule($this);
+        $this->discounts[] = $discount;
+
+        return $this;
+    }
+
+    /**
+     * @param Discount $discounts
+     *
+     * @return Rule
+     */
+    public function addDiscounts(Discount $discounts): self
+    {
+        foreach ($discounts as $discount) {
+            $this->addDiscount($discount);
+        }
 
         return $this;
     }

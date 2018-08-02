@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity
@@ -27,17 +28,21 @@ class AppliedDiscount
     private $id;
 
     /**
+     * @Serializer\Exclude()
+     *
      * @var Discount
      *
-     * @ORM\ManyToOne(targetEntity="Discount", inversedBy="appliedDiscount")
+     * @ORM\ManyToOne(targetEntity="Discount", inversedBy="appliedDiscounts")
      * @ORM\JoinColumn(name="discount_id", referencedColumnName="id")
      */
     private $discount;
 
     /**
+     * @Serializer\Exclude()
+     *
      * @var DiscountHistory
      *
-     * @ORM\ManyToOne(targetEntity="DiscountHistory", inversedBy="appliedDiscount")
+     * @ORM\ManyToOne(targetEntity="DiscountHistory", inversedBy="appliedDiscounts")
      * @ORM\JoinColumn(name="discount_history_id", referencedColumnName="id")
      */
     private $discountHistory;
@@ -47,7 +52,7 @@ class AppliedDiscount
      *
      * @ORM\Column(type="float")
      */
-    private $amount;
+    private $discountAmount;
 
     /**
      * @return int
@@ -112,19 +117,19 @@ class AppliedDiscount
     /**
      * @return float
      */
-    public function getAmount(): float
+    public function getDiscountAmount(): float
     {
-        return $this->amount;
+        return $this->discountAmount;
     }
 
     /**
-     * @param float $amount
+     * @param float $discountAmount
      *
      * @return AppliedDiscount
      */
-    public function setAmount(float $amount): self
+    public function setDiscountAmount(float $discountAmount): self
     {
-        $this->amount = $amount;
+        $this->discountAmount = $discountAmount;
 
         return $this;
     }

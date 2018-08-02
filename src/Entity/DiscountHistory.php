@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,14 +40,22 @@ class DiscountHistory
      *
      * @ORM\Column(type="float")
      */
-    private $total;
+    private $totalDiscountAmount;
 
     /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppliedDiscount", mappedBy="discountHistory")
      */
-    private $appliedDiscount;
+    private $appliedDiscounts;
+
+    /**
+     * DiscountHistory constructor
+     */
+    public function __construct()
+    {
+        $this->appliedDiscounts = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -90,39 +100,54 @@ class DiscountHistory
     /**
      * @return float
      */
-    public function getTotal(): float
+    public function getTotalDiscountAmount(): float
     {
-        return $this->total;
+        return $this->totalDiscountAmount;
     }
 
     /**
-     * @param float $total
+     * @param float $totalDiscountAmount
      *
      * @return DiscountHistory
      */
-    public function setTotal(float $total): self
+    public function setTotalDiscountAmount(float $totalDiscountAmount): self
     {
-        $this->total = $total;
+        $this->totalDiscountAmount = $totalDiscountAmount;
 
         return $this;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getAppliedDiscount(): ArrayCollection
+    public function getAppliedDiscounts(): Collection
     {
-        return $this->appliedDiscount;
+        return $this->appliedDiscounts;
     }
 
     /**
-     * @param ArrayCollection $appliedDiscount
+     * @param AppliedDiscount $appliedDiscounts
      *
      * @return DiscountHistory
      */
-    public function setAppliedDiscount(ArrayCollection $appliedDiscount): self
+    public function addAppliedDiscount(AppliedDiscount $appliedDiscounts): self
     {
-        $this->appliedDiscount = $appliedDiscount;
+        $appliedDiscounts->setDiscountHistory($this);
+        $this->appliedDiscounts[] = $appliedDiscounts;
+
+        return $this;
+    }
+
+    /**
+     * @param ArrayCollection $appliedDiscounts
+     *
+     * @return DiscountHistory
+     */
+    public function addAppliedDiscounts(ArrayCollection $appliedDiscounts): self
+    {
+        foreach ($appliedDiscounts as $appliedDiscount) {
+            $this->addAppliedDiscount($appliedDiscount);
+        }
 
         return $this;
     }

@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,7 +51,7 @@ class Discount
     /**
      * @var Rule
      *
-     * @ORM\ManyToOne(targetEntity="Rule", inversedBy="discount")
+     * @ORM\ManyToOne(targetEntity="Rule", inversedBy="discounts")
      * @ORM\JoinColumn(name="rule_id", referencedColumnName="id")
      */
     private $rule;
@@ -81,7 +82,15 @@ class Discount
      *
      * @ORM\OneToMany(targetEntity="AppliedDiscount", mappedBy="discount")
      */
-    private $appliedDiscount;
+    private $appliedDiscounts;
+
+    /**
+     * Discount constructor
+     */
+    public function __construct()
+    {
+        $this->appliedDiscounts = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -144,9 +153,9 @@ class Discount
     }
 
     /**
-     * @return int
+     * @return null|int
      */
-    public function getProductCategory(): int
+    public function getProductCategory(): ?int
     {
         return $this->productCategory;
     }
@@ -244,21 +253,36 @@ class Discount
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getAppliedDiscount(): ArrayCollection
+    public function getAppliedDiscount(): Collection
     {
-        return $this->appliedDiscount;
+        return $this->appliedDiscounts;
     }
 
     /**
-     * @param ArrayCollection $appliedDiscount
+     * @param AppliedDiscount $appliedDiscounts
      *
      * @return Discount
      */
-    public function setAppliedDiscount(ArrayCollection $appliedDiscount): self
+    public function addAppliedDiscount(AppliedDiscount $appliedDiscounts): self
     {
-        $this->appliedDiscount = $appliedDiscount;
+        $appliedDiscounts->setDiscount($this);
+        $this->appliedDiscounts[] = $appliedDiscounts;
+
+        return $this;
+    }
+
+    /**
+     * @param ArrayCollection $appliedDiscounts
+     *
+     * @return Discount
+     */
+    public function addAppliedDiscounts(ArrayCollection $appliedDiscounts): self
+    {
+        foreach ($appliedDiscounts as $appliedDiscount) {
+            $this->addAppliedDiscount($appliedDiscount);
+        }
 
         return $this;
     }

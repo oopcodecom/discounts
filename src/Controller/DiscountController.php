@@ -84,8 +84,8 @@ class DiscountController extends FOSRestController
     public function calculateDiscountForOrderAction(Request $request): Response
     {
         $discountManager = $this->container->get(DiscountManager::class);
-        $calculatedDiscount = $discountManager->getDiscountForOrder($request->getContent());
+        $discountJson = $discountManager->getDiscountForOrder($request->getContent());
 
-        return new Response(json_encode($calculatedDiscount), 200);
+        return new Response($discountJson, 200);
     }
 }
