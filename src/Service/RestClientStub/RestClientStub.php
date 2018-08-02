@@ -21,8 +21,6 @@ class RestClientStub
      */
     public function getCustomerSpentAmountByCustomerId(string $customerId): float
     {
-        $spentAmount = 0.00;
-
         switch ($customerId) {
             case "1":
                 $spentAmount = 1205.05;
@@ -47,13 +45,15 @@ class RestClientStub
      */
     public function getProductCategoryId(string $productId): string
     {
-        $categoryId = "0";
-
         switch ($productId) {
             case "A101":
+            case "A102":
+            case "A103":
                 $categoryId = "1";
                 break;
             case "B101":
+            case "B102":
+            case "B103":
                 $categoryId = "2";
                 break;
             default:
