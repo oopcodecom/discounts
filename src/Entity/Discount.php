@@ -77,6 +77,13 @@ class Discount
     private $isActive;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppliedDiscount", mappedBy="discount")
+     */
+    private $appliedDiscount;
+
+    /**
      * @return mixed
      */
     public function getId(): int
@@ -232,6 +239,26 @@ class Discount
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getAppliedDiscount(): ArrayCollection
+    {
+        return $this->appliedDiscount;
+    }
+
+    /**
+     * @param ArrayCollection $appliedDiscount
+     *
+     * @return Discount
+     */
+    public function setAppliedDiscount(ArrayCollection $appliedDiscount): self
+    {
+        $this->appliedDiscount = $appliedDiscount;
 
         return $this;
     }

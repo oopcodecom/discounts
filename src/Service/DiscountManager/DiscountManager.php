@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace App\Service\DiscountManager;
 
+use App\Entity\AppliedDiscount;
 use App\Entity\Discount;
+use App\Entity\DiscountHistory;
 use App\Repository\DiscountRepository;
 use App\Service\DiscountManager\Rules\DiscountRuleInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -53,6 +55,11 @@ class DiscountManager
         $discountRepository = $this->objectManager->getRepository(Discount::class);
         $activeDiscounts = $discountRepository->findOrderedActiveDiscountsWithRuleNames();
 
+
+        $discountHistory = new DiscountHistory();
+        $discountHistory->setOrderId($order['id']);
+
+
         foreach ($activeDiscounts as $discount) {
             /** @var DiscountRuleInterface $ruleObject */
             $ruleObject = new $discount['ruleName'](
@@ -61,9 +68,21 @@ class DiscountManager
                 $discount['productCategory']
             );
 
-            $calculatedDiscount += $ruleObject->calculateDiscount($orderObject);
+            $calculatedDiscount = $ruleObject->calculateDiscount($orderObject);
+
+            if($calculatedDiscount) {
+                $appliedDiscount = new AppliedDiscount();
+                $appliedDiscount->setAmount($calculatedDiscount);
+                $appliedDiscount->setDiscount($discount);
+                $appliedDiscount->setDiscountHistory($discountHistory);
+                $this->objectManager->persist($appliedDiscount);
+            }
 
         }
+
+        $discountHistory->setTotal($total);
+        $this->objectManager->persist($discountHistory);
+        $this->objectManager->flush();
 
         return $calculatedDiscount;
     }
