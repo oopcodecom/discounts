@@ -65,7 +65,7 @@ class DiscountManager
         $discountHistory = new DiscountHistory();
         $discountHistory->setOrderId($orderArray['id']);
 
-        $calculatedDiscount = 0.0;
+        $totalDiscount = 0.00;
 
         /** @var Discount $discount */
         foreach ($activeDiscounts as $discount) {
@@ -76,13 +76,15 @@ class DiscountManager
             /** @var DiscountRuleInterface $discountRule */
             $discountRule = new $ruleName(
                 $discount->getRuleValue(),
-                $discount->getAmount(),
+                $discount->getDiscountRate(),
                 $discount->getProductCategory()
             );
 
-            $calculatedDiscount += $discountRule->calculateDiscount($orderArray);
+            $calculatedDiscount = $discountRule->calculateDiscount($orderArray);
 
             if ($calculatedDiscount) {
+                $totalDiscount += $calculatedDiscount;
+
                 $appliedDiscount = new AppliedDiscount();
                 $appliedDiscount->setDiscountAmount($calculatedDiscount);
                 $appliedDiscount->setDiscount($discount);
@@ -94,7 +96,7 @@ class DiscountManager
 
         }
 
-        $discountHistory->setTotalDiscountAmount($calculatedDiscount);
+        $discountHistory->setTotalDiscountAmount($totalDiscount);
         $this->objectManager->persist($discountHistory);
         $this->objectManager->flush();
         $orderJson = $this->serializer->getSerializer()->serialize($discountHistory, 'json');

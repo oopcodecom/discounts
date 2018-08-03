@@ -41,7 +41,7 @@ class DiscountFixtures extends Fixture
         foreach ($this->getDiscounts() as $discount) {
             $discountObject = new Discount();
             $discountObject->setName($discount['name']);
-            $discountObject->setAmount($discount['amount']);
+            $discountObject->setDiscountRate($discount['amount']);
             $discountObject->setProductCategory($discount['productCategory']);
             $discountObject->setDiscountOrder($discount['discountOrder']);
             $discountObject->setRule($ruleObjects[$index]);

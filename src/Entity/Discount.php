@@ -10,6 +10,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use JMS\Serializer\Annotation as Serializer;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,7 +39,7 @@ class Discount
      *
      * @ORM\Column(type="integer")
      */
-    private $amount;
+    private $discountRate;
 
     /**
      * @var null|int
@@ -48,6 +49,8 @@ class Discount
     private $productCategory;
 
     /**
+     * @Serializer\Exclude()
+     *
      * @var Rule
      *
      * @ORM\ManyToOne(targetEntity="Rule", inversedBy="discounts")
@@ -77,6 +80,8 @@ class Discount
     private $isActive;
 
     /**
+     * @Serializer\Exclude()
+     *
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppliedDiscount", mappedBy="discount")
@@ -134,19 +139,19 @@ class Discount
     /**
      * @return int
      */
-    public function getAmount(): int
+    public function getDiscountRate(): int
     {
-        return $this->amount;
+        return $this->discountRate;
     }
 
     /**
-     * @param mixed $amount
+     * @param mixed $discountRate
      *
      * @return Discount
      */
-    public function setAmount(int $amount): self
+    public function setDiscountRate(int $discountRate): self
     {
-        $this->amount = $amount;
+        $this->discountRate = $discountRate;
 
         return $this;
     }

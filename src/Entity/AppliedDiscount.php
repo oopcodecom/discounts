@@ -26,8 +26,6 @@ class AppliedDiscount
     private $id;
 
     /**
-     * @Serializer\Exclude()
-     *
      * @var Discount
      *
      * @ORM\ManyToOne(targetEntity="Discount", inversedBy="appliedDiscounts")
