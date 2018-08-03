@@ -1,10 +1,9 @@
 <?php
 declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: bogdan
- * Date: 7/24/18
- * Time: 9:41 PM
+ * Description: Rule entity responsible for storing available rules which can be applied for discount
+ *
+ * @copyright 2018 Bogdan Hmarnii
  */
 
 namespace App\Entity;

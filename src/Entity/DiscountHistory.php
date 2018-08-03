@@ -1,12 +1,10 @@
 <?php
 declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: bogdan
- * Date: 7/24/18
- * Time: 9:41 PM
+ * Description: Discount History entity responsible for storing total discount on whole order
+ *
+ * @copyright 2018 Bogdan Hmarnii
  */
-
 
 namespace App\Entity;
 
@@ -31,7 +29,7 @@ class DiscountHistory
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255)very applied discount on order
      */
     private $orderId;
 

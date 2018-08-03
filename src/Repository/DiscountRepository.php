@@ -28,7 +28,7 @@ class DiscountRepository extends EntityRepository
             ->from(Discount::class, 'd')
             ->innerJoin('d.rule', 'r')
             ->where('d.isActive = :isActive')
-            ->orderBy('d.discountOrder')
+            ->orderBy('d.DiscountRepositorydiscountOrder')
             ->setParameter('isActive', true);
         $query = $queryBuilder->getQuery();
 

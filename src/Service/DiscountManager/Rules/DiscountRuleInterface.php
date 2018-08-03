@@ -1,10 +1,9 @@
 <?php
 declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: bogdan
- * Date: 8/1/18
- * Time: 8:06 AM
+ * Description: Discount Rule interface
+ *
+ * @copyright 2018 Bogdan Hmarnii
  */
 
 namespace App\Service\DiscountManager\Rules;

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: bogdan
- * Date: 7/24/18
- * Time: 9:41 PM
+ * Description: Discount Controller provides API entry point to calculate discount for order
+ *                or to get an information about applied discounts
+ *
+ * @copyright 2018 Bogdan Hmarnii
  */
 
 namespace App\Controller;
@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
-use Swagger\Annotations\Property;
-use Swagger\Annotations\Schema;
 
 /**
  * Class DiscountController

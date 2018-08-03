@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: bogdan
- * Date: 8/1/18
- * Time: 8:11 AM
+ * Description: Discount Rule on the cheapest product when client have X quantity of products
+ *                from similar product category.
+ *
+ * @copyright 2018 Bogdan Hmarnii
  */
 
 namespace App\Service\DiscountManager\Rules;
 
 /**
- * Class DiscountAfterQuantityOnCheapestProductRule
+ * Class DiscountForCheapestProductFromProductsOfOneCategory
  */
-class DiscountAfterQuantityOnCheapestProductRule extends AbstractDiscountRule implements DiscountRuleInterface
+class DiscountForCheapestProductFromProductsOfOneCategory extends AbstractDiscountRule implements DiscountRuleInterface
 {
     /**
      * @param array $order

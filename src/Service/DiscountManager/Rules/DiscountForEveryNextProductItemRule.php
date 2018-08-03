@@ -1,18 +1,17 @@
 <?php
 declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: bogdan
- * Date: 8/1/18
- * Time: 8:11 AM
+ * Description: Discount Rule for every X product item
+ *
+ * @copyright 2018 Bogdan Hmarnii
  */
 
 namespace App\Service\DiscountManager\Rules;
 
 /**
- * Class DiscountForEveryNextProductRule
+ * Class DiscountForEveryNextProductItemRule
  */
-class DiscountForEveryNextProductRule extends AbstractDiscountRule implements DiscountRuleInterface
+class DiscountForEveryNextProductItemRule extends AbstractDiscountRule implements DiscountRuleInterface
 {
     /**
      * @param array $order

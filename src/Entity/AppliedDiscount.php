@@ -1,12 +1,10 @@
 <?php
 declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: bogdan
- * Date: 7/24/18
- * Time: 9:41 PM
+ * Description: Applied Discount entity responsible for storing every applied discount on order
+ *
+ * @copyright 2018 Bogdan Hmarnii
  */
-
 
 namespace App\Entity;
 

@@ -1,12 +1,10 @@
 <?php
 declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: bogdan
- * Date: 7/24/18
- * Time: 9:41 PM
+ * Description: Discount entity responsible for storing configurable discounts
+ *
+ * @copyright 2018 Bogdan Hmarnii
  */
-
 
 namespace App\Entity;
 

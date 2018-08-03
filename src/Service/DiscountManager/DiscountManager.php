@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: bogdan
- * Date: 7/31/18
- * Time: 9:07 PM
+ * Description: Discount Manager responsible to apply discount for order and return
+ *                serialized order history
+ *
+ * @copyright 2018 Bogdan Hmarnii
  */
 
 namespace App\Service\DiscountManager;

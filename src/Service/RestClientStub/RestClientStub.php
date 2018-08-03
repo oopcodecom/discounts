@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: bogdan
- * Date: 8/1/18
- * Time: 8:35 PM
+ * Description: Rest Client Stub simulates communication channel
+ *
+ * @copyright 2018 Bogdan Hmarnii
  */
+
 
 namespace App\Service\RestClientStub;
 

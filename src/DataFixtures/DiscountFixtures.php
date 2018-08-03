@@ -1,17 +1,17 @@
 <?php
+declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: bogdan
- * Date: 7/30/18
- * Time: 9:29 PM
+ * Description: Discount Fixtures loads initial data in database
+ *
+ * @copyright 2018 Bogdan Hmarnii
  */
 
 namespace App\DataFixtures;
 
 use App\Entity\Discount;
 use App\Entity\Rule;
-use App\Service\DiscountManager\Rules\DiscountAfterQuantityOnCheapestProductRule;
-use App\Service\DiscountManager\Rules\DiscountForEveryNextProductRule;
+use App\Service\DiscountManager\Rules\DiscountForCheapestProductFromProductsOfOneCategory;
+use App\Service\DiscountManager\Rules\DiscountForEveryNextProductItemRule;
 use App\Service\DiscountManager\Rules\DiscountOnCustomerSpentAmountRule;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -26,7 +26,9 @@ class DiscountFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
+        /** @var Rule[] $ruleObjects */
         $ruleObjects = [];
+
         foreach ($this->getRules() as $rule) {
             $ruleObject = new Rule();
             $ruleObject->setName($rule);
@@ -45,7 +47,9 @@ class DiscountFixtures extends Fixture
             $discountObject->setRule($ruleObjects[$index]);
             $discountObject->setRuleValue($discount['ruleValue']);
             $discountObject->setIsActive($discount['isActive']);
+
             $manager->persist($discountObject);
+
             $index++;
         }
 
@@ -59,8 +63,8 @@ class DiscountFixtures extends Fixture
     {
         return [
             DiscountOnCustomerSpentAmountRule::class,
-            DiscountForEveryNextProductRule::class,
-            DiscountAfterQuantityOnCheapestProductRule::class,
+            DiscountForEveryNextProductItemRule::class,
+            DiscountForCheapestProductFromProductsOfOneCategory::class,
         ];
     }
 

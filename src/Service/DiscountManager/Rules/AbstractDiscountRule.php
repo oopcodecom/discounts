@@ -1,10 +1,9 @@
 <?php
 declare(strict_types=1);
 /**
- * Created by PhpStorm.
- * User: bogdan
- * Date: 8/1/18
- * Time: 8:58 PM
+ * Description: Discount Rule Abstraction contain main Rule data
+ *
+ * @copyright 2018 Bogdan Hmarnii
  */
 
 namespace App\Service\DiscountManager\Rules;
@@ -16,22 +15,16 @@ use App\Service\RestClientStub\RestClientStub;
  */
 abstract class AbstractDiscountRule
 {
-    /**
-     * @var mixed|mixed
-     */
+    /** @var mixed $ruleValue */
     protected $ruleValue;
 
-    /**
-     * @var int
-     */
+    /** @var int $discountAmount */
     protected $discountAmount;
 
-    /**
-     * @var int|null
-     */
+    /** @var int|null $productCategoryId */
     protected $productCategoryId;
 
-    /** @var RestClientStub */
+    /** @var RestClientStub $apiClient */
     protected $apiClient;
 
     /**
