@@ -22,10 +22,10 @@ class RestClientStub
     {
         switch ($customerId) {
             case "1":
-                $spentAmount = 1205.05;
+                $spentAmount = 450;
                 break;
             case "2":
-                $spentAmount = 800.05;
+                $spentAmount = 1505.95;
                 break;
             case "3":
                 $spentAmount = 1;

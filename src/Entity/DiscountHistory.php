@@ -11,13 +11,19 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="discount_history", uniqueConstraints={
+ * @ORM\UniqueConstraint(name="unique_order_id", columns="order_id"),
+ * })
  */
 class DiscountHistory
 {
     /**
+     * @Serializer\Type("string")
+     *
      * @var int
      *
      * @ORM\Id
@@ -29,11 +35,13 @@ class DiscountHistory
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255)very applied discount on order
+     * @ORM\Column(type="string", length=255)
      */
     private $orderId;
 
     /**
+     * @Serializer\Type("string")
+     *
      * @var float
      *
      * @ORM\Column(type="float")

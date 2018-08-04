@@ -17,6 +17,8 @@ use App\Repository\DiscountRepository;
 use App\Service\DiscountManager\Rules\DiscountRuleInterface;
 use App\Service\SerializerClient\SerializerClient;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class DiscountManager
@@ -48,16 +50,10 @@ class DiscountManager
      */
     public function getDiscountForOrder(string $order)
     {
-        /**
-         * Note: This is only a stub, in real case $order should be deserialized
-         *       in Order Object with fields, getters and setters.
-         *
-         * @var array $orderArray
-         */
-        $orderArray = json_decode($order, true);
 
+        $orderArray = $this->deserializeOrder($order);
 
-        /** @var DiscountRepository $discountRepository */
+        /** @var EntityRepository $discountRepository */
         $discountRepository = $this->objectManager->getRepository(Discount::class);
         $activeDiscounts = $discountRepository->findBy(['isActive' => true]);
 
@@ -74,11 +70,7 @@ class DiscountManager
             $ruleName = $ruleObject->getName();
 
             /** @var DiscountRuleInterface $discountRule */
-            $discountRule = new $ruleName(
-                $discount->getRuleValue(),
-                $discount->getDiscountRate(),
-                $discount->getProductCategory()
-            );
+            $discountRule = new $ruleName($discount->getRuleValue(), $discount->getDiscountRate(), $discount->getProductCategory());
 
             $calculatedDiscount = $discountRule->calculateDiscount($orderArray);
 
@@ -93,7 +85,6 @@ class DiscountManager
 
                 $discountHistory->addAppliedDiscount($appliedDiscount);
             }
-
         }
 
         $discountHistory->setTotalDiscountAmount($totalDiscount);
@@ -102,5 +93,29 @@ class DiscountManager
         $orderJson = $this->serializer->getSerializer()->serialize($discountHistory, 'json');
 
         return $orderJson;
+    }
+
+    /**
+     * Note: This is only a stub, in real case $order should be deserialized
+     *       in Order Object with fields, getters and setters.
+     *
+     * @param string $order
+     *
+     * @return array
+     */
+    private function deserializeOrder(string $order): array
+    {
+        $orderArray = json_decode($order, true);
+
+        /** @var EntityRepository $discountHistoryRepository */
+        $discountHistoryRepository = $this->objectManager->getRepository(DiscountHistory::class);
+
+        $appliedDiscountForOrder = $discountHistoryRepository->findOneBy(['orderId' => $orderArray['id']]);
+
+        if ($appliedDiscountForOrder instanceof DiscountHistory) {
+            throw new HttpException(406, 'Discount was already applied for this order');
+        }
+
+        return $orderArray;
     }
 }

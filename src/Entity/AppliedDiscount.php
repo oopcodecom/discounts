@@ -17,6 +17,8 @@ use JMS\Serializer\Annotation as Serializer;
 class AppliedDiscount
 {
     /**
+     * @Serializer\Type("string")
+     *
      * @var int
      *
      * @ORM\Id
@@ -44,6 +46,8 @@ class AppliedDiscount
     private $discountHistory;
 
     /**
+     * @Serializer\Type("string")
+     *
      * @var float
      *
      * @ORM\Column(type="float")

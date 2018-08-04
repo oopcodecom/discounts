@@ -26,12 +26,11 @@ class DiscountForCheapestProductFromProductsOfOneCategory extends AbstractDiscou
         $productsForDiscount = $this->sortProductsForDiscount($order['items']);
 
         if (count($productsForDiscount) >= $this->ruleValue) {
-            $discount = (float) $productsForDiscount[0]['total'];
-            array_map(function ($product) use (&$discount) {
-                if ((float) $product['total'] < $discount) {
-                    $discount = (float) $product['total'];
-                }
-            }, $productsForDiscount);
+            $minimalProductTotal = min(array_map(function ($product) {
+                return $product['total'];
+            }, $productsForDiscount));
+
+            $discount = ($minimalProductTotal * $this->discountAmount) / 100;
         }
 
         return $discount;

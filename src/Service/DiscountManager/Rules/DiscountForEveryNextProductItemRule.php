@@ -27,7 +27,7 @@ class DiscountForEveryNextProductItemRule extends AbstractDiscountRule implement
             if ((string) $this->productCategoryId === $productId) {
                 $countItemsForDiscount = (int) ($item['quantity'] / $this->ruleValue);
                 if ($countItemsForDiscount) {
-                    $discount = (((float) $item['unit-price'] * $countItemsForDiscount) * $this->discountAmount) / 100;
+                    $discount += (((float) $item['unit-price'] * $countItemsForDiscount) * $this->discountAmount) / 100;
                 }
             }
         }

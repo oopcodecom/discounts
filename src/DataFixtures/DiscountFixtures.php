@@ -43,7 +43,7 @@ class DiscountFixtures extends Fixture
             $discountObject->setName($discount['name']);
             $discountObject->setDiscountRate($discount['amount']);
             $discountObject->setProductCategory($discount['productCategory']);
-            $discountObject->setDiscountOrder($discount['discountOrder']);
+            $discountObject->setDiscountOrder($discount['discountPriority']);
             $discountObject->setRule($ruleObjects[$index]);
             $discountObject->setRuleValue($discount['ruleValue']);
             $discountObject->setIsActive($discount['isActive']);
@@ -75,27 +75,27 @@ class DiscountFixtures extends Fixture
     {
         return [
             [
-                'name' => 'Discount on customer spent amount more then 1000 euros',
+                'name' => 'Discount for customer who has already bought for over € 1000, gets a discount of 10% on the whole order.',
                 'amount' => 10,
                 'productCategory' => null,
                 'ruleValue' => 1000,
-                'discountOrder' => 1,
+                'discountPriority' => 1,
                 'isActive' => true,
             ],
             [
-                'name' => 'Discount on every sixth product in category "Switches"',
+                'name' => 'Discount for every product of category Switches (id 2), when customer buy five, customer get a sixth for free.',
                 'amount' => 100,
                 'productCategory' => 2,
                 'ruleValue' => 6,
-                'discountOrder' => 2,
+                'discountPriority' => 2,
                 'isActive' => true,
             ],
             [
-                'name' => 'Discount on cheapest product if two or more products in category "Tools"',
+                'name' => 'Discount if customer buy two or more products of category Tools (id 1), he get a 20% discount on the cheapest product.',
                 'amount' => 20,
                 'productCategory' => 1,
                 'ruleValue' => 2,
-                'discountOrder' => 3,
+                'discountPriority' => 3,
                 'isActive' => true,
             ],
         ];

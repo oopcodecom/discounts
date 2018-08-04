@@ -14,11 +14,13 @@ use JMS\Serializer\Annotation as Serializer;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\DiscountRepository")
+ * @ORM\Entity
  */
 class Discount
 {
     /**
+     * @Serializer\Type("string")
+     *
      * @var int
      *
      * @ORM\Id
@@ -35,6 +37,8 @@ class Discount
     private $name;
 
     /**
+     * @Serializer\Type("string")
+     *
      * @var int
      *
      * @ORM\Column(type="integer")
@@ -42,6 +46,8 @@ class Discount
     private $discountRate;
 
     /**
+     * @Serializer\Type("string")
+     *
      * @var null|int
      *
      * @ORM\Column(type="integer", nullable=true)
@@ -59,6 +65,8 @@ class Discount
     private $rule;
 
     /**
+     * @Serializer\Type("string")
+     *
      * @var int
      *
      * @ORM\Column(type="integer")
@@ -66,11 +74,13 @@ class Discount
     private $ruleValue;
 
     /**
+     * @Serializer\Type("string")
+     *
      * @var int
      *
      * @ORM\Column(type="integer")
      */
-    private $discountOrder;
+    private $discountPriority;
 
     /**
      * @var bool
@@ -199,19 +209,19 @@ class Discount
     /**
      * @return int
      */
-    public function getDiscountOrder(): int
+    public function getDiscountPriority(): int
     {
-        return $this->discountOrder;
+        return $this->discountPriority;
     }
 
     /**
-     * @param int $discountOrder
+     * @param int $discountPriority
      *
      * @return Discount
      */
-    public function setDiscountOrder(int $discountOrder): self
+    public function setDiscountOrder(int $discountPriority): self
     {
-        $this->discountOrder = $discountOrder;
+        $this->discountPriority = $discountPriority;
 
         return $this;
     }
