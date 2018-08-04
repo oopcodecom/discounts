@@ -6,7 +6,6 @@ declare(strict_types=1);
  * @copyright 2018 Bogdan Hmarnii
  */
 
-
 namespace App\Service\RestClientStub;
 
 /**
