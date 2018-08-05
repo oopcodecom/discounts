@@ -1,0 +1,32 @@
+version: '3'
+services:
+  apache:
+    build: .docker/apache
+    container_name: discounts_apache
+    ports:
+    - 80:80
+    volumes:
+    - .docker/vhosts:/etc/apache2/sites-enabled
+    - .:/home/wwwroot/discounts
+    depends_on:
+    - php
+
+  mysql:
+    image: mysql:5.7
+    container_name: db
+    volumes:
+    - .docker/data/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: discounts
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    command: --skip-symbolic-links=1
+
+  php:
+    build: .docker/php
+    container_name: discounts_php
+    volumes:
+    - .:/home/wwwroot/discounts
+    depends_on:
+    - mysql
