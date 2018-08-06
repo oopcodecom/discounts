@@ -6,7 +6,6 @@ services:
     ports:
     - 80:80
     volumes:
-    - .docker/vhosts:/etc/apache2/sites-enabled
     - .:/home/wwwroot/discounts
     depends_on:
     - php
