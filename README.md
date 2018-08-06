@@ -20,7 +20,7 @@ serialized and returned as response.
 ## Installation:
 1. Make git close *this repository*
 2. Add in your hosts 127.0.0.1      discounts.local
-3. CD to cloned folder and run sudo ./build.sh
+3. CD to cloned folder and run sudo ./build.sh (rerun if failed on refuse)
 4. Open http://discounts.local/api/doc/
 5. Enjoy!
 
