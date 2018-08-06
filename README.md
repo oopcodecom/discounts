@@ -6,7 +6,7 @@ Everything is based on DiscountRuleInterface. This is something very
 close with Rule Engine, but more simple. 
 
 In DiscountManager\Rule you can find available rules. Every rule
-is storing in db:table rules. You can use any rule and
+are stored in db:table rules. You can use any rule and
 create own Discount (db:table discounts) with different rule value,
 discount amount and product category target. 
 
