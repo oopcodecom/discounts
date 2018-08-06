@@ -44,4 +44,4 @@ WORKDIR /home/wwwroot/discounts
 
 EXPOSE 9000
 CMD ["php-fpm"]
-CMD ["./build.sh"]
+RUN composer install
