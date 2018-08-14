@@ -50,7 +50,6 @@ class DiscountManager
      */
     public function getDiscountForOrder(string $order)
     {
-
         $orderArray = $this->deserializeOrder($order);
 
         /** @var EntityRepository $discountRepository */

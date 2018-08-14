@@ -12,6 +12,7 @@
         "friendsofsymfony/rest-bundle": "^2.3",
         "jms/serializer-bundle": "^2.4",
         "nelmio/api-doc-bundle": "^3.2",
+        "phpunit/phpunit": "^7.3",
         "symfony/asset": "^4.1",
         "symfony/console": "^4.1",
         "symfony/flex": "^1.0",
@@ -22,7 +23,9 @@
         "symfony/yaml": "^4.1"
     },
     "require-dev": {
-        "symfony/dotenv": "^4.1"
+        "mockery/mockery": "^1.1",
+        "symfony/dotenv": "^4.1",
+        "symfony/phpunit-bridge": "^4.1"
     },
     "config": {
         "preferred-install": {

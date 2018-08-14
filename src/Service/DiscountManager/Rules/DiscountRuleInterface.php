@@ -14,7 +14,7 @@ namespace App\Service\DiscountManager\Rules;
 interface DiscountRuleInterface
 {
     /**
-     * Note: In real world, $order should be an object of Order object
+     * Note: In real world, $order should be an object of Order entity
      *
      * @param array $order
      *
