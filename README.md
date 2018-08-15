@@ -23,7 +23,7 @@ serialized and returned as clear and informative response.
 3. linux terminal: CD to your cloned folder and run command "sudo ./build.sh" (rerun if failed on refuse)
 
 ## How to run?
-1. Open http://discounts.local/api/doc/ in your browser which will open NelmioApiDocBundle
+1. Open http://discounts.local/api/doc/ (this is a page of installed and configured NelmioApiDocBundle)
 2. Press on row "POST /api/calculate-discount-for-order Calculate discount for customer order"
 3. Press Try it out
 4. Press Execute
