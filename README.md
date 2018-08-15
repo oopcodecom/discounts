@@ -17,6 +17,11 @@ Then DiscountManager will save a total discount for order in db:table discount_h
 and every applied discount in discount db:table applied_discounts. This data will be
 serialized and returned as clear and informative response.
 
+## Requirements:
+Docker version 1.10.0+
+
+docker-compose version 1.17.1+
+
 ## Installation:
 1. linux terminal: git clone https://github.com/bog-h/discounts.git
 2. Add in your hosts file a new host: 127.0.0.1      discounts.local
