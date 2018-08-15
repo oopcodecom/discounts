@@ -45,9 +45,9 @@ class DiscountManager
     /**
      * @param string $order
      *
-     * @return mixed
+     * @return string
      */
-    public function getDiscountForOrder(string $order)
+    public function getDiscountForOrder(string $order): string
     {
         $orderArray = $this->deserializeOrder($order);
         $this->validateOrder($orderArray['id']);

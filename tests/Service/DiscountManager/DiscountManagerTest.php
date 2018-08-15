@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\DiscountManager;
 
+use App\Entity\AppliedDiscount;
 use App\Entity\Discount;
 use App\Entity\DiscountHistory;
 use App\Entity\Rule;
@@ -28,19 +29,19 @@ use PHPUnit\Framework\TestCase;
  */
 class DiscountManagerTest extends TestCase
 {
-    /** @var ObjectManager $objectManagerMock */
+    /** @var ObjectManager|Mockery\MockInterface $objectManagerMock */
     private $objectManagerMock;
 
-    /** @var EntityManager $entityManagerMock */
+    /** @var EntityManager|Mockery\MockInterface  $entityManagerMock */
     private $entityManagerMock;
 
-    /** @var SerializerClient $serializerClientMock */
+    /** @var SerializerClient|Mockery\MockInterface  $serializerClientMock */
     private $serializerClientMock;
 
-    /** @var Serializer $serializerMock */
+    /** @var Serializer|Mockery\MockInterface  $serializerMock */
     private $serializerMock;
 
-    /** @var DiscountManager $discountManagerMock */
+    /** @var DiscountManager|Mockery\MockInterface  $discountManagerMock */
     private $discountManagerMock;
 
     /** @var Discount[] $discountObjects */
@@ -75,10 +76,22 @@ class DiscountManagerTest extends TestCase
          \"total\": \"49.90\"
         }";
 
-        $appliedDiscount = "{
+//        $discountHistory = new DiscountHistory();
+//        $discountHistory->setOrderId("1");
+//
+//        $appliedDiscount = new AppliedDiscount();
+//        $appliedDiscount->setDiscountAmount(4.99);
+//        $appliedDiscount->setDiscount($this->discountObjects[1]);
+//        $appliedDiscount->setDiscountHistory($discountHistory);
+//
+//        $discountHistory->addAppliedDiscount($appliedDiscount);
+//        $discountHistory->setTotalDiscountAmount(4.99);
+
+
+        $serializedDiscount = "{
         \"id\":\"2\",
         \"order_id\":\"2\",
-        \"total_discount_amount\":\"4.99\",
+        \"total_discount_amount\":\"5.99\",
         \"applied_discounts\":[{
           \"id\":\"2\",
           \"discount\":{
@@ -97,23 +110,26 @@ class DiscountManagerTest extends TestCase
         $this->objectManagerMock->shouldReceive('getRepository')->with(DiscountHistory::class)->andReturn($this->entityManagerMock);
         $this->entityManagerMock->shouldReceive('findOneBy')->withAnyArgs()->andReturn(null);
         $this->entityManagerMock->shouldReceive('findBy')->with(['isActive' => true])->andReturn($this->discountObjects);
-        $this->objectManagerMock->shouldReceive('persist')->withAnyArgs();
+        $this->objectManagerMock->shouldReceive('persist')->withAnyArgs()->once();
+        $this->objectManagerMock->shouldReceive('persist')->withAnyArgs()->once();
         $this->objectManagerMock->shouldReceive('flush')->withAnyArgs();
         $this->serializerClientMock->shouldReceive('getSerializer')->andReturn($this->serializerMock);
-       // $this->serializerMock->shouldReceive('serialize')->with($discountHistory, 'json')->andReturn();
-
-        // $this->discountManagerMock->shouldReceive('getDiscountForOrder')->with($order)->andReturn($appliedDiscount);
+        $this->serializerMock->shouldReceive('serialize')->withAnyArgs()->andReturn($serializedDiscount);
 
         $result = $this->discountManagerMock->getDiscountForOrder($order);
-        $this->assertEquals($appliedDiscount, $result, "DiscountManager expected result with actual");
+        $this->assertEquals($serializedDiscount, $result, "DiscountManager expected result with actual");
     }
 
+    /**
+     * Generate available Discounts
+     */
     private function generateDiscounts(): void
     {
         $discounts  =  [
                 [
                     'name' => 'Discount for customer who has already bought for over € 1000, gets a discount of 10% on the whole order.',
                     'amount' => 10,
+                    'id' => 1,
                     'productCategory' => null,
                     'ruleValue' => 1000,
                     'discountPriority' => 1,
@@ -123,6 +139,7 @@ class DiscountManagerTest extends TestCase
                 [
                     'name' => 'Discount for every product of category Switches (id 2), when customer buy five, customer get a sixth for free.',
                     'amount' => 100,
+                    'id' => 2,
                     'productCategory' => 2,
                     'ruleValue' => 6,
                     'discountPriority' => 2,
@@ -132,6 +149,7 @@ class DiscountManagerTest extends TestCase
                 [
                     'name' => 'Discount if customer buy two or more products of category Tools (id 1), he get a 20% discount on the cheapest product.',
                     'amount' => 20,
+                    'id' => 3,
                     'productCategory' => 1,
                     'ruleValue' => 2,
                     'discountPriority' => 3,
@@ -143,8 +161,10 @@ class DiscountManagerTest extends TestCase
         foreach ($discounts as $discount) {
             $ruleObject = new Rule();
             $ruleObject->setName($discount['rule']);
+            $ruleObject->setId($discount['id']);
 
             $discountObject = new Discount();
+            $discountObject->setId($discount['id']);
             $discountObject->setName($discount['name']);
             $discountObject->setDiscountRate($discount['amount']);
             $discountObject->setProductCategory($discount['productCategory']);
