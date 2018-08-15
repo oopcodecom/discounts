@@ -13,7 +13,6 @@ use App\Entity\AppliedDiscount;
 use App\Entity\Discount;
 use App\Entity\DiscountHistory;
 use App\Entity\Rule;
-use App\Repository\DiscountRepository;
 use App\Service\DiscountManager\Rules\DiscountRuleInterface;
 use App\Service\SerializerClient\SerializerClient;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -51,6 +50,7 @@ class DiscountManager
     public function getDiscountForOrder(string $order)
     {
         $orderArray = $this->deserializeOrder($order);
+        $this->validateOrder($orderArray['id']);
 
         /** @var EntityRepository $discountRepository */
         $discountRepository = $this->objectManager->getRepository(Discount::class);
@@ -89,9 +89,12 @@ class DiscountManager
         $discountHistory->setTotalDiscountAmount($totalDiscount);
         $this->objectManager->persist($discountHistory);
         $this->objectManager->flush();
-        $orderJson = $this->serializer->getSerializer()->serialize($discountHistory, 'json');
 
-        return $orderJson;
+        /** @var  $serializerClient $serializerClient */
+        $serializerClient = $this->serializer->getSerializer();
+        $serializedOrder = $serializerClient->serialize($discountHistory, 'json');
+
+        return $serializedOrder;
     }
 
     /**
@@ -106,15 +109,21 @@ class DiscountManager
     {
         $orderArray = json_decode($order, true);
 
+        return $orderArray;
+    }
+
+    /**
+     * @param string $orderId
+     */
+    private function validateOrder(string $orderId): void
+    {
         /** @var EntityRepository $discountHistoryRepository */
         $discountHistoryRepository = $this->objectManager->getRepository(DiscountHistory::class);
 
-        $appliedDiscountForOrder = $discountHistoryRepository->findOneBy(['orderId' => $orderArray['id']]);
+        $appliedDiscountForOrder = $discountHistoryRepository->findOneBy(['orderId' => $orderId]);
 
         if ($appliedDiscountForOrder instanceof DiscountHistory) {
             throw new HttpException(406, 'Discount was already applied for this order');
         }
-
-        return $orderArray;
     }
 }
