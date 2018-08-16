@@ -54,8 +54,8 @@ class DiscountManager
 
         /** @var EntityRepository $discountRepository */
         $discountRepository = $this->objectManager->getRepository(Discount::class);
-        $activeDiscounts[] = $discountRepository->findBy(['isActive' => true]);
-
+        $activeDiscountsResult = $discountRepository->findBy(['isActive' => true]);
+        $activeDiscounts = is_array($activeDiscountsResult) ? $activeDiscountsResult : array($activeDiscountsResult);
 
         $discountHistory = new DiscountHistory();
         $discountHistory->setOrderId($orderArray['id']);
