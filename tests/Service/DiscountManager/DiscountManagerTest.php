@@ -41,8 +41,8 @@ class DiscountManagerTest extends TestCase
     /** @var Serializer|Mockery\MockInterface  $serializerMock */
     private $serializerMock;
 
-    /** @var DiscountManager|Mockery\MockInterface  $discountManagerMock */
-    private $discountManagerMock;
+    /** @var DiscountManager|Mockery\MockInterface  $discountManager */
+    private $discountManager;
 
     /** @var Discount[] $discountObjects */
     private $discountObjects;
@@ -56,7 +56,7 @@ class DiscountManagerTest extends TestCase
         $this->entityManagerMock = Mockery::mock(EntityManager::class);
         $this->serializerClientMock = Mockery::mock(SerializerClient::class);
         $this->serializerMock = Mockery::mock(Serializer::class);
-        $this->discountManagerMock = new DiscountManager($this->objectManagerMock, $this->serializerClientMock);
+        $this->discountManager = new DiscountManager($this->objectManagerMock, $this->serializerClientMock);
         $this->generateDiscounts();
     }
 
@@ -76,48 +76,27 @@ class DiscountManagerTest extends TestCase
          \"total\": \"49.90\"
         }";
 
-//        $discountHistory = new DiscountHistory();
-//        $discountHistory->setOrderId("1");
-//
-//        $appliedDiscount = new AppliedDiscount();
-//        $appliedDiscount->setDiscountAmount(4.99);
-//        $appliedDiscount->setDiscount($this->discountObjects[1]);
-//        $appliedDiscount->setDiscountHistory($discountHistory);
-//
-//        $discountHistory->addAppliedDiscount($appliedDiscount);
-//        $discountHistory->setTotalDiscountAmount(4.99);
+        $discountHistory = new DiscountHistory();
+        $discountHistory->setOrderId("1");
 
+        $appliedDiscount = new AppliedDiscount();
+        $appliedDiscount->setDiscountAmount(4.99);
+        $appliedDiscount->setDiscount($this->discountObjects[1]);
+        $appliedDiscount->setDiscountHistory($discountHistory);
 
-        $serializedDiscount = "{
-        \"id\":\"2\",
-        \"order_id\":\"2\",
-        \"total_discount_amount\":\"5.99\",
-        \"applied_discounts\":[{
-          \"id\":\"2\",
-          \"discount\":{
-            \"id\":\"5\",
-            \"name\":\"Discount for every product of category Switches (id 2), when customer buy five, customer get a sixth for free.\",
-            \"discount_rate\":\"100\",
-            \"product_category\":\"2\",
-            \"rule_value\":\"6\",
-            \"discount_priority\":\"2\",
-            \"is_active\":true},
-            \"discount_amount\":\"4.99\"
-            }]
-        }";
+        $discountHistory->addAppliedDiscount($appliedDiscount);
+        $discountHistory->setTotalDiscountAmount(4.99);
+
 
         $this->objectManagerMock->shouldReceive('getRepository')->with(Discount::class)->andReturn($this->entityManagerMock);
         $this->objectManagerMock->shouldReceive('getRepository')->with(DiscountHistory::class)->andReturn($this->entityManagerMock);
         $this->entityManagerMock->shouldReceive('findOneBy')->withAnyArgs()->andReturn(null);
         $this->entityManagerMock->shouldReceive('findBy')->with(['isActive' => true])->andReturn($this->discountObjects);
-        $this->objectManagerMock->shouldReceive('persist')->withAnyArgs()->once();
-        $this->objectManagerMock->shouldReceive('persist')->withAnyArgs()->once();
-        $this->objectManagerMock->shouldReceive('flush')->withAnyArgs();
-        $this->serializerClientMock->shouldReceive('getSerializer')->andReturn($this->serializerMock);
-        $this->serializerMock->shouldReceive('serialize')->withAnyArgs()->andReturn($serializedDiscount);
+        $this->objectManagerMock->shouldReceive('persist')->twice();
+        $this->objectManagerMock->shouldReceive('flush');
 
-        $result = $this->discountManagerMock->getDiscountForOrder($order);
-        $this->assertEquals($serializedDiscount, $result, "DiscountManager expected result with actual");
+        $actualDiscountHistory = $this->discountManager->getDiscountForOrder($order);
+        $this->assertEquals($discountHistory, $actualDiscountHistory, "DiscountManager assertion on expected object with result object");
     }
 
     /**

@@ -45,9 +45,9 @@ class DiscountManager
     /**
      * @param string $order
      *
-     * @return string
+     * @return DiscountHistory
      */
-    public function getDiscountForOrder(string $order): string
+    public function getDiscountForOrder(string $order): DiscountHistory
     {
         $orderArray = $this->deserializeOrder($order);
         $this->validateOrder($orderArray['id']);
@@ -90,12 +90,11 @@ class DiscountManager
         $this->objectManager->persist($discountHistory);
         $this->objectManager->flush();
 
-        /** @var  $serializerClient $serializerClient */
-        $serializerClient = $this->serializer->getSerializer();
-        $serializedOrder = $serializerClient->serialize($discountHistory, 'json');
 
-        return $serializedOrder;
+        return $discountHistory;
     }
+
+
 
     /**
      * Note: This is only a stub, in real case $order should be deserialized

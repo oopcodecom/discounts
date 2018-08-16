@@ -31,3 +31,6 @@ services:
 
     App\Service\DiscountManager\DiscountManager:
         public: true
+
+    App\Service\SerializerClient\SerializerClient:
+        public: true
