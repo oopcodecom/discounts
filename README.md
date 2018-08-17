@@ -25,7 +25,10 @@ docker-compose version 1.17.1+
 ## Installation:
 1. linux terminal: git clone https://github.com/bog-h/discounts.git
 2. Add in your hosts file a new host: 127.0.0.1      discounts.local
-3. linux terminal: CD to your cloned folder and run command "sudo ./build.sh" (rerun if failed on refuse)
+3. linux terminal: CD to your cloned folder and run command "sudo ./build.sh"
+
+extra: sometime build.sh can fail on Refuse Connection, this is not resolved yet,
+please just rerun "sudo ./build.sh"
 
 ## How to run?
 1. Open http://discounts.local/api/doc/ (this is a page of installed and configured NelmioApiDocBundle)
@@ -33,6 +36,8 @@ docker-compose version 1.17.1+
 3. Press Try it out
 4. Press Execute
 5. Receive a response
+
+extra: please stop your apache and mysql services if you have.
 
 You can execute different json examples like multiple-discounts.json from request-examples folder
 
