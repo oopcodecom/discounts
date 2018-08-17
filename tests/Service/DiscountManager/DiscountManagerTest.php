@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 /**
- * Description: Test Discount Manager responsible to apply discount for order and return
+ * Description: Test for Discount Manager - responsible to apply discount for order and return
  *                serialized order history
  *
  * @copyright 2018 Bogdan Hmarnii
@@ -14,9 +14,9 @@ use App\Entity\Discount;
 use App\Entity\DiscountHistory;
 use App\Entity\Rule;
 use App\Service\DiscountManager\DiscountManager;
-use App\Service\DiscountManager\Rules\DiscountForCheapestProductFromProductsOfOneCategory;
-use App\Service\DiscountManager\Rules\DiscountForEveryNextProductItemRule;
-use App\Service\DiscountManager\Rules\DiscountOnCustomerSpentAmountRule;
+use App\Service\DiscountRules\DiscountForCheapestProductFromProductsOfOneCategory;
+use App\Service\DiscountRules\DiscountForEveryNextProductItemRule;
+use App\Service\DiscountRules\DiscountOnCustomerSpentAmountRule;
 use App\Service\SerializerClient\SerializerClient;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
@@ -98,7 +98,7 @@ class DiscountManagerTest extends TestCase
         $this->objectManagerMock->shouldReceive('flush');
 
         $actualDiscountHistory = $this->discountManager->getDiscountForOrder($providedData['order']);
-        $this->assertEquals($expectedDiscountHistory, $actualDiscountHistory, "DiscountManager assertion on expected object with result object");
+        $this->assertEquals($expectedDiscountHistory, $actualDiscountHistory, "DiscountManager should return discount history with single applied discount");
     }
 
 
@@ -253,7 +253,7 @@ class DiscountManagerTest extends TestCase
         $this->objectManagerMock->shouldReceive('flush');
 
         $actualDiscountHistory = $this->discountManager->getDiscountForOrder($providedData['order']);
-        $this->assertEquals($expectedDiscountHistory, $actualDiscountHistory, "DiscountManager assertion on expected object with result object");
+        $this->assertEquals($expectedDiscountHistory, $actualDiscountHistory, "DiscountManager should return discount history with multiple applied discounts");
     }
 
     /**

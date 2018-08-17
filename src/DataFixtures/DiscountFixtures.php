@@ -10,9 +10,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Discount;
 use App\Entity\Rule;
-use App\Service\DiscountManager\Rules\DiscountForCheapestProductFromProductsOfOneCategory;
-use App\Service\DiscountManager\Rules\DiscountForEveryNextProductItemRule;
-use App\Service\DiscountManager\Rules\DiscountOnCustomerSpentAmountRule;
+use App\Service\DiscountRules\DiscountForCheapestProductFromProductsOfOneCategory;
+use App\Service\DiscountRules\DiscountForEveryNextProductItemRule;
+use App\Service\DiscountRules\DiscountOnCustomerSpentAmountRule;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 

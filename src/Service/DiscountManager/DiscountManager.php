@@ -13,7 +13,7 @@ use App\Entity\AppliedDiscount;
 use App\Entity\Discount;
 use App\Entity\DiscountHistory;
 use App\Entity\Rule;
-use App\Service\DiscountManager\Rules\DiscountRuleInterface;
+use App\Service\DiscountRules\DiscountRuleInterface;
 use App\Service\SerializerClient\SerializerClient;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 /**
  * Class DiscountManager
  */
-class DiscountManager
+class DiscountManager implements DiscountManagerInterface
 {
     /** @var ObjectManager $objectManager */
     private $objectManager;
