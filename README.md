@@ -27,10 +27,10 @@ for local usage need to turn off your apache2 and mysql services
 ## Installation:
 1. linux terminal: git clone https://github.com/bog-h/discounts.git
 2. Add in your hosts file a new host: 127.0.0.1      discounts.local
-3. linux terminal: CD to your cloned folder and run command "sudo ./build.sh"
+3. linux terminal: CD to your cloned folder and run command "./build.sh"
 
 extra: sometime build.sh can fail on Refuse Connection, this is not resolved yet,
-please just rerun "sudo ./build.sh"
+please just rerun "./build.sh"
 
 ## How to run?
 1. Open http://discounts.local/api/doc/ (this is a page of installed and configured NelmioApiDocBundle)
