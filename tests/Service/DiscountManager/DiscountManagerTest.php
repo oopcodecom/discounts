@@ -17,10 +17,8 @@ use App\Service\DiscountManager\DiscountManager;
 use App\Service\DiscountRules\DiscountForCheapestProductFromProductsOfOneCategory;
 use App\Service\DiscountRules\DiscountForEveryNextProductItemRule;
 use App\Service\DiscountRules\DiscountOnCustomerSpentAmountRule;
-use App\Service\SerializerClient\SerializerClient;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
-use JMS\Serializer\Serializer;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -35,12 +33,6 @@ class DiscountManagerTest extends TestCase
     /** @var EntityManager|Mockery\MockInterface $entityManagerMock */
     private $entityManagerMock;
 
-    /** @var SerializerClient|Mockery\MockInterface $serializerClientMock */
-    private $serializerClientMock;
-
-    /** @var Serializer|Mockery\MockInterface $serializerMock */
-    private $serializerMock;
-
     /** @var DiscountManager|Mockery\MockInterface $discountManager */
     private $discountManager;
 
@@ -51,9 +43,7 @@ class DiscountManagerTest extends TestCase
     {
         $this->objectManagerMock = Mockery::mock(ObjectManager::class);
         $this->entityManagerMock = Mockery::mock(EntityManager::class);
-        $this->serializerClientMock = Mockery::mock(SerializerClient::class);
-        $this->serializerMock = Mockery::mock(Serializer::class);
-        $this->discountManager = new DiscountManager($this->objectManagerMock, $this->serializerClientMock);
+        $this->discountManager = new DiscountManager($this->objectManagerMock);
     }
 
     /**

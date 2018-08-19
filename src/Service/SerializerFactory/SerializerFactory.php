@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 /**
- * Description: Serializer Client responsible to provide serializer class object
+ * Description: Serializer Factory responsible to create serializer instance
  *
  * @copyright 2018 Bogdan Hmarnii
  */
 
-namespace App\Service\SerializerClient;
+namespace App\Service\SerializerFactory;
 
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
@@ -14,7 +14,7 @@ use JMS\Serializer\SerializerBuilder;
 /**
  * Class SerializerClient
  */
-class SerializerClient
+class SerializerFactory implements SerializerFactoryInterface
 {
     /**
      * @return Serializer

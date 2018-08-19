@@ -14,7 +14,6 @@ use App\Entity\Discount;
 use App\Entity\DiscountHistory;
 use App\Entity\Rule;
 use App\Service\DiscountRules\DiscountRuleInterface;
-use App\Service\SerializerClient\SerializerClient;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -27,19 +26,14 @@ class DiscountManager implements DiscountManagerInterface
     /** @var ObjectManager $objectManager */
     private $objectManager;
 
-    /** @var SerializerClient $serializer */
-    private $serializer;
-
     /**
      * DiscountManager constructor.
      *
-     * @param ObjectManager    $manager
-     * @param SerializerClient $serializer
+     * @param ObjectManager $manager
      */
-    public function __construct(ObjectManager $manager, SerializerClient $serializer)
+    public function __construct(ObjectManager $manager)
     {
         $this->objectManager = $manager;
-        $this->serializer = $serializer;
     }
 
     /**

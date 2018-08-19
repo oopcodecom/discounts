@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Service\DiscountManager\DiscountManager;
-use App\Service\SerializerClient\SerializerClient;
+use App\Service\DiscountManager\DiscountManagerInterface;
+use App\Service\SerializerFactory\SerializerFactoryInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,16 +76,18 @@ class DiscountController extends FOSRestController
      *     )
      * )
      *
-     * @param Request $request
+     * @param Request                    $request
+     *
+     * @param DiscountManagerInterface   $discountManager
+     * @param SerializerFactoryInterface $serializerFactory
      *
      * @return Response
      */
-    public function calculateDiscountForOrderAction(Request $request): Response
+    public function calculateDiscountForOrderAction(Request $request, DiscountManagerInterface $discountManager, SerializerFactoryInterface $serializerFactory): Response
     {
-        $discountManager = $this->container->get(DiscountManager::class);
         $discountHistory = $discountManager->getDiscountForOrder($request->getContent());
 
-        $serializer = $this->container->get(SerializerClient::class)->getSerializer();
+        $serializer = $serializerFactory->getSerializer();
         $serializedDiscount = $serializer->serialize($discountHistory, 'json');
 
         return new Response($serializedDiscount, 200);
