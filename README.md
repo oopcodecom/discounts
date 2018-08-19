@@ -22,6 +22,8 @@ Docker version 1.10.0+
 
 docker-compose version 1.17.1+
 
+for local usage need to turn off your apache2 and mysql services
+
 ## Installation:
 1. linux terminal: git clone https://github.com/bog-h/discounts.git
 2. Add in your hosts file a new host: 127.0.0.1      discounts.local
